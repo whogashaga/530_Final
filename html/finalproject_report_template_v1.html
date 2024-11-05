@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Microgrid Design and Simulation</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-10-30">
+<meta name="DC.source" content="finalproject_report_template_v1.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Microgrid Design and Simulation</h1>
+<!--introduction-->
+<p>
+<i>GROUP NAMES</i>
+</p>
+<p>
+<b>PROJECT TITLE</b>
+</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Microgrid Description and Overview</a>
+</li>
+<li>
+<a href="#2">Load Calculations</a>
+</li>
+<li>
+<a href="#3">Summary of Homer Output</a>
+</li>
+<li>
+<a href="#4">Translating Homer's Outputs to MATLAB/Simulink</a>
+</li>
+<li>
+<a href="#5">Simulation Results</a>
+</li>
+<li>
+<a href="#6">Final Project Instructions</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Microgrid Description and Overview</h2>
+<p>A few sentences describing your project. Please include images of your project location, including an overhead satellite image. Below is an example of how to include an image. The image file should be in a folder named "html" at the same level as this script. You should have at least two descriptive images, one of which is an overhead satelillite image (2 pts). You should have a description of the location, some of its characteristics, and why it might benefit from a microgrid (2 pts). An additional 1 point for neatness and completeness.</p>
+<p>Here is my sdewscription of our microgrid. Its in this location and so forth.</p>
+<p>
+<img src="water_kiosk.png" width="75%">
+</p>
+<h2 id="2">Load Calculations</h2>
+<p>Start with a few sentence description of the load and its characterstics. You'll need to determine the daily kWh of your load, and the load factor. (The load factor is the ratio of daily average power to daily peak power; see the instructions for more discussion). Include all assumptions and calculations. 2 pts for a good description of how you arrived at your estimated daily kWh load. 2 pts for a description of how you arrived at an estimate of load factor. 1 pt for neatness and completeness.</p>
+<h2 id="3">Summary of Homer Output</h2>
+<p>Provide a short summary of the design from Homer you are choosing to simulate in MATLAB/Simulink. (Choose a design with solar and wind, if possible.)</p>
+<p>Design the energy storage secondary control, and the deferred load control. The energy storage secondary control should manage the SOC in some way. The deferred load control is optional, but gives you a tool to keep the grid stable under the condition that the wind and solar generation exceed the load, and the battery is fully charged so that it cannot take any additional power. (Hints: something like Pessec_ref = K*(0.5 - SOC) can work, as it acts to always drive the battery back to 0.5 SOC. For the deferred load, you could create a check for which when wind and solar generation exceeds load, and the SOC is full or near full, we turn on the pumps. Remember to avoid hard logic checks. Try to use either smooth (proportional) control actions, or use relays.)</p>
+<p>Include a screenshot of the Homer output in your shared presentation.</p>
+<h2 id="4">Translating Homer's Outputs to MATLAB/Simulink</h2>
+<p>Describe and demonstrate how you will translate the outputs of Homer to the MATLAB/Simulink parameters:</p>
+<div>
+<ul>
+<li>meanLoad</li>
+<li>peakLoad</li>
+<li>es.Prated</li>
+<li>es.Erated</li>
+<li>wt.scale</li>
+<li>pv.Prated</li>
+<li>ht.Prated</li>
+<li>mg.Pbase (should be set to either peak or average load)</li>
+</ul>
+</div>
+<h2 id="5">Simulation Results</h2>
+<p>Simulate your system and plot the following:</p>
+<div>
+<ol>
+<li>Pload, Pwt, Ppv, Pes, Pht, Pload2</li>
+<li>Pes on left axis and SOC on right axis</li>
+<li>delfpu</li>
+</ol>
+</div>
+<p>Comment on if the design is stable. Make three additional comments on anything of interest in the performance of your microgrid.</p>
+<h2 id="6">Final Project Instructions</h2>
+<p>You can delete this section before the final publish (see publish instructions at the bottom).</p>
+<p>Design a microgrid (wind, solar, battery, load, and hydro) using Homer, and simulate your microgrid for 24 hours using MATLAB Simulink</p>
+<p>You'll first need to open a free account with Homer Quickstart</p>
+<p>You'll need the following information to design your microgrid:</p>
+<div>
+<ul>
+<li>Location of the microgrid and local cost of diesel fuel</li>
+<li>Type of load (residential, commercial, industrial, community)</li>
+<li>Amount of load (peak W in a day, and kWh per day)</li>
+<li>Cost of energy storage</li>
+<li>Cost of PV</li>
+<li>Cost of Wind</li>
+<li>Cost of diesel fuel</li>
+</ul>
+</div>
+<p>Cost of diesel: you can use the default of $1/liter.</p>
+<p>Electrical load:</p>
+<div>
+<ul>
+<li>Can use 11.3 kWh/sqft/yr for residential loads (EIA, <a href="https://www.eia.gov/consumption/residential/data/2015/c&amp;e/pdf/ce1.1.pdf">https://www.eia.gov/consumption/residential/data/2015/c&amp;e/pdf/ce1.1.pdf</a>)</li>
+<li>Can use 14.6 kWh/sqft/yr for commercial loads (EIA, <a href="https://www.eia.gov/consumption/commercial/data/2012/c&amp;e/cfm/pba4.php">https://www.eia.gov/consumption/commercial/data/2012/c&amp;e/cfm/pba4.php</a>)</li>
+<li>Industrial loads are more specific to the site. (I.e., what does the factory do?) Make a reasonable estimate and justify it. (One example approach would be to find a reference for a similar site and benchmark against that.)</li>
+<li>As a sanity check, consider that a typical residential home will have 1500 to 2500 square feet, and an energy consumption of 30-40 kWh per day. A typical Fred Meyer will have tens of thousands of square feet and an energy consumption of up to thousands of kWh per day.</li>
+<li>We also need to determine the load factor, which is the ratio of average daily power to peak daily power. As a rough rule of thumb, very large loads distributed over very wide areas may have a load factor of around 0.85. Smaller loads have smaller load factors. An individual house might have a load factor of around 0.3.</li>
+<li>From the load factor and the daily energy consumption (kWh), you can estimate the peak load.</li>
+<li>IMPORTANT: after Homer has designed your grid, click on the "Load" in the "Schematic" and adjust the "variability" accordingly to match your peak load. You'll need to re-calculate the design after changing this.</li>
+</ul>
+</div>
+<p>PV:</p>
+<div>
+<ul>
+<li>For the price of capacity, use <a href="https://www.nrel.gov/solar/market-research-analysis/solar-installed-system-cost.html">https://www.nrel.gov/solar/market-research-analysis/solar-installed-system-cost.html</a>
+</li>
+<li>The y-axis is dollars per watt.</li>
+</ul>
+</div>
+<p>Wind turbine:</p>
+<div>
+<ul>
+<li>Assume a 100 kW XANT turbine</li>
+<li>Assume a capacity cost of $1/W for wind turbines</li>
+</ul>
+</div>
+<p>Battery:</p>
+<div>
+<ul>
+<li>Use generic 1 kWh lithium ion batteries.</li>
+<li>Use $140 per battery.</li>
+</ul>
+</div>
+<p>Homer outputs:</p>
+<div>
+<ul>
+<li>Homer will provide a table of possible designs, ordered by Net Present Cost. The columns are:</li>
+<li>kW of diesel capacity</li>
+<li>kW of PV capacity</li>
+<li>kW of battery power capacity</li>
+<li>Number of 1 kWh battery cells</li>
+</ul>
+</div>
+<p>Rubric:</p>
+<div>
+<ul>
+<li>Description (5 pts)</li>
+<li>Load Calculations (5 pts)</li>
+<li>Homer Output Summary (5 pts)</li>
+<li>Simulation Setup (5 pts)</li>
+<li>Simulation Results and Analysis (5 pts)</li>
+<li>Presentation (5 pts)</li>
+</ul>
+</div>
+<p>
+<b>Note on publishing</b> For the html style image inclusion code to work, you should publish to html. Any images should be a folder named "html" at the same level as this script. When this script is "publish"ed, it will produce an html file in the html folder. You can then print that html file to pdf using any browser.</p>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Microgrid Design and Simulation
+% _GROUP NAMES_ 
+%
+% *PROJECT TITLE* 
+
+
+
+%% Microgrid Description and Overview
+% A few sentences describing your project.  Please include images of your
+% project location, including an overhead satellite image.
+% Below is an example of how to include an image.  The image file should be
+% in a folder named "html" at the same level as this script.
+% You should have at least two descriptive images, one of which is an
+% overhead satelillite image (2 pts).
+% You should have a description of the location, some of its
+% characteristics, and why it might benefit from a microgrid (2 pts).
+% An additional 1 point for neatness and completeness.
+%
+% Here is my sdewscription of our microgrid.  Its in this location and so
+% forth.
+%
+% <html>
+% <img src="water_kiosk.png" width="75%">
+% </html>
+
+
+
+%% Load Calculations
+% Start with a few sentence description of the load and its characterstics.
+% You'll need to determine the daily kWh of your load, and the load factor.
+% (The load factor is the ratio of daily average power to daily peak power;
+% see the instructions for more discussion). Include all assumptions and
+% calculations.
+% 2 pts for a good description of how you arrived at your estimated daily
+% kWh load.
+% 2 pts for a description of how you arrived at an estimate of load factor.
+% 1 pt for neatness and completeness.
+
+
+
+%% Summary of Homer Output
+% Provide a short summary of the design from Homer you are choosing to
+% simulate in MATLAB/Simulink.  (Choose a design with solar and wind, if
+% possible.)  
+% 
+% Design the energy storage secondary control, and the deferred load
+% control.  The energy storage secondary control should manage the SOC in
+% some way.  The deferred load control is optional, but gives you a tool 
+% to keep the grid stable under the condition that the wind and solar
+% generation exceed the load, and the battery is fully charged so that it
+% cannot take any additional power.  (Hints: something like Pessec_ref =
+% K*(0.5 - SOC) can work, as it acts to always drive the battery back to
+% 0.5 SOC.  For the deferred load, you could create a check for which when
+% wind and solar generation exceeds load, and the SOC is full or near full,
+% we turn on the pumps.  Remember to avoid hard logic checks.  Try to use
+% either smooth (proportional) control actions, or use relays.)
+%
+% Include a screenshot of the Homer output in your shared
+% presentation.
+
+
+
+%% Translating Homer's Outputs to MATLAB/Simulink
+% Describe and demonstrate how you will translate the outputs of Homer to
+% the MATLAB/Simulink parameters:
+% 
+% * meanLoad
+% * peakLoad
+% * es.Prated
+% * es.Erated
+% * wt.scale
+% * pv.Prated
+% * ht.Prated
+% * mg.Pbase (should be set to either peak or average load)
+
+
+
+%% Simulation Results
+% Simulate your system and plot the following:
+% 
+% # Pload, Pwt, Ppv, Pes, Pht, Pload2
+% # Pes on left axis and SOC on right axis
+% # delfpu
+%
+% Comment on if the design is stable.
+% Make three additional comments on anything of interest in the performance
+% of your microgrid.
+
+
+
+%% Final Project Instructions
+%
+% You can delete this section before the final publish (see publish instructions at the bottom).  
+% 
+% Design a microgrid (wind, solar, battery, load, and hydro) using Homer,
+% and simulate your microgrid for 24 hours using MATLAB Simulink
+%
+% You'll first need to open a free account with Homer Quickstart
+%
+% You'll need the following information to design your microgrid:
+%
+% * Location of the microgrid and local cost of diesel fuel
+% * Type of load (residential, commercial, industrial, community)
+% * Amount of load (peak W in a day, and kWh per day)
+% * Cost of energy storage
+% * Cost of PV 
+% * Cost of Wind
+% * Cost of diesel fuel
+%
+% Cost of diesel: you can use the default of $1/liter.
+%
+% Electrical load:
+%
+% * Can use 11.3 kWh/sqft/yr for residential loads (EIA,
+% https://www.eia.gov/consumption/residential/data/2015/c&e/pdf/ce1.1.pdf)
+% * Can use 14.6 kWh/sqft/yr for commercial loads (EIA,
+% https://www.eia.gov/consumption/commercial/data/2012/c&e/cfm/pba4.php)
+% * Industrial loads are more specific to the site.  (I.e., what does the
+% factory do?)  Make a reasonable estimate and justify it.  (One example
+% approach would be to find a reference for a similar site and benchmark
+% against that.)
+% * As a sanity check, consider that a typical residential home will have
+% 1500 to 2500 square feet, and an energy consumption of 30-40 kWh per day.
+% A typical Fred Meyer will have tens of thousands of square feet and an
+% energy consumption of up to thousands of kWh per day.
+% * We also need to determine the load factor, which is the ratio of
+% average daily power to peak daily power.  As a rough rule of thumb, very
+% large loads distributed over very wide areas may have a load factor of
+% around 0.85.  Smaller loads have smaller load factors.  An individual
+% house might have a load factor of around 0.3.
+% * From the load factor and the daily energy consumption (kWh), you can
+% estimate the peak load.
+% * IMPORTANT: after Homer has designed your grid, click on the "Load" in
+% the "Schematic" and adjust the "variability" accordingly to match your
+% peak load.  You'll need to re-calculate the design after changing this.
+% 
+% PV:
+%
+% * For the price of capacity, use
+% https://www.nrel.gov/solar/market-research-analysis/solar-installed-system-cost.html
+% * The y-axis is dollars per watt.
+% 
+% Wind turbine:
+% 
+% * Assume a 100 kW XANT turbine
+% * Assume a capacity cost of $1/W for wind turbines
+%
+% Battery:
+%
+% * Use generic 1 kWh lithium ion batteries.
+% * Use $140 per battery.
+%
+% Homer outputs:
+%
+% * Homer will provide a table of possible designs, ordered by Net Present
+% Cost.  The columns are:
+% * kW of diesel capacity
+% * kW of PV capacity
+% * kW of battery power capacity
+% * Number of 1 kWh battery cells
+%
+% Rubric:
+%
+% * Description (5 pts)
+% * Load Calculations (5 pts)
+% * Homer Output Summary (5 pts)
+% * Simulation Setup (5 pts)
+% * Simulation Results and Analysis (5 pts)
+% * Presentation (5 pts)
+%
+% *Note on publishing*
+% For the html style image inclusion code to work, you should publish to
+% html.  Any images should be a folder named "html" at the same level as
+% this script.  When this script is "publish"ed, it will produce an html
+% file in the html folder.  You can then print that html file to pdf using
+% any browser.
+##### SOURCE END #####
+-->
+</body>
+</html>
