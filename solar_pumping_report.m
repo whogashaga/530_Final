@@ -146,16 +146,17 @@ fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
 % and head pressure to move the water from the well to a reservoir. The
 % total dynamic head pressure is estimated at 154 to 170 meters.
 % 
-% A datasheet selected to meet the demand of pressure and flow is shown on
-% figure 2.2. The pumps listed can deliver 1,500 liters/hr and the red
-% lines indicate the requred band of 154 to 170 meters. SP 2A-48 can deliver the
-% flow and pressure required. Another pump not shown on this data sheet is
-% SP 2A-40 that lies junst under SP 2A-48 and can deliver the flow at that
-% specified pressure. This pump has a 2.2kw (3hp) motor. The datasheet
-% shows 0.04 kW power per stage and the SP 2A-40 has '40 stages.' The pump
-% power is then given as 0.04 kw x 40 stages for 1.6kW. Pump selection is
-% well within the estimated requiremetns but no pumping power safetly
-% margins are included in these calculations at this time.
+% Figure 2.2 is a data of available pumps to meet varius pressures and
+% flows. All these pumps can deliver 1,500 liters/hr (x-axis) and the red
+% lines indicate the requred band of 154 to 170 meters for this project. SP
+% 2A-48 can deliver the flow and pressure required. Another pump not shown
+% on this data sheet is SP 2A-40 that lies junst under SP 2A-48 and can
+% deliver the flow at that specified pressure. This pump has a 2.2kw (3hp)
+% motor. The datasheet shows 0.04 kW power per stage and the SP 2A-40 has
+% '40 stages.' The pump power is then given as 0.04 kw x 40 stages for
+% 1.6kW. Pump selection is well within the estimated requiremetns but no
+% pumping power safetly margins are included in these calculations at this
+% time.
 % 
 % <html> <img src="grundfos.png" width="75%"> <p style="font-style:italic;
 % color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
@@ -180,16 +181,12 @@ fprintf('Annual_Pumping_energy: %3.0f kWh \n',Annual_Pumping_energy)
 % 
 % The current estimated loads assume power is always available.  The total
 % electrical lighting loads and pumping loads are given as: 
-% 
-% 758watts + 1.6kW = 2.36 kW
 Peak_Power = Total_Power_School/1000 + Pump_power; % 2.36 kW
 fprintf('Peak_Power: %2.2f kW \n',Peak_Power)
 %% Load Calculations - MicroGrid Annual Energy Use 
 % 
 % The annual energy usage includes electrical lighting and pumping energy
 % and is given as:
-% 
-% 3,323 kWh + 14,016 kWh = 17,339 kWh
 
 Annual_Energy_Use = Total_Energy_School + Annual_Pumping_energy; %3,323 kWh + 14,016 kWh = 17,339 kWh
 fprintf('Annual_Energy_Use: %3.0f kWh \n',Annual_Energy_Use)
