@@ -92,7 +92,7 @@
 % The project scope for the school house includes power for lighting and a
 % few small plug loads for computers and a printer. 
 % 
-% Electrical lighting power continues to fall with the apoption of LEDs.
+% Electrical lighting power continues to fall with the adoption of LEDs.
 % Several US states have adopted the 2021 International Energy Conservation
 % Code (IECC) standards, including its lighting power density (LPD). The
 % 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64
@@ -121,7 +121,7 @@ fprintf('Total_Power_School: %0.1f watts \n',Total_Power_School)
 % 
 % Total Operational Hours per week = 6days * 9hrs + 3days * 2hrs = 60 hrs
 % 
-% *Energy Use School* 
+% *Energy Use School per year* 
 Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; % = 1,834 kWh
 Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; % 1,489 kWh
 Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; %kWh
@@ -162,8 +162,8 @@ fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
 % color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
 % the operational band.</p> </html>
 % 
-Pump_power = 0.040 * 40; %1.6kW
-fprintf('Pump_power: %0.1f kW \n',Pump_power)
+Pump_power = 0.040 * 40; %1.6kW/hr
+fprintf('Pump_power: %0.1f kW/hr \n',Pump_power)
 % 
 % *Energy pumping power* 
 % As with the electrical lighting, this assessment assumes power is
@@ -198,7 +198,7 @@ fprintf('Annual_Energy_Use: %3.0f kWh \n',Annual_Energy_Use)
 % it has been sized for 24 hour operation. If the pump does turn off it
 % will occur when little water is being used (at night) and once the
 % reservoir has been filled. Electrical lighting power usage is shown here
-% to operate during a Monday through Saturday and 8am - 6pm schedule and
+% to operate during a Monday through Saturday and 8am - 5pm schedule and
 % contributes to the lower load factor.
 % 
 % The load factor is given as Total Annual Energy Use / (Peak Demand * 365 days)
