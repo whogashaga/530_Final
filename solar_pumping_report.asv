@@ -111,9 +111,9 @@ Printer = 50; % watts
 Total_Plug_Power = 120 + 50; % total power plug loads: 170 watts
 Total_Power_School = Electrical_Power_Use + Total_Plug_Power; % total power all loads 758 watts
 
-fprintf('Electrical_Power_Use: %0.1f watts \n',Electrical_Power_Use)
-fprintf('Total_Plug_Power: %0.1f watts \n',Total_Plug_Power)
-fprintf('Total_Power_School: %0.1f watts \n',Total_Power_School) 
+fprintf('Electrical_Power_Use: %0.1f watts \n\n\n',Electrical_Power_Use)
+fprintf('Total_Plug_Power: %0.1f watts \n\n\n',Total_Plug_Power)
+fprintf('Total_Power_School: %0.1f watts \n\n\n',Total_Power_School) 
 
 % *Daily Use Assumptions* 
 % School Operational Hours: 6 days/week 8am-5pm with 2 hour evening classes
@@ -126,9 +126,9 @@ Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; % = 1,834 kWh
 Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; % 1,489 kWh
 Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; %kWh
 
-fprintf('Energy_Lighting: %3.f kWh \n',Energy_Lighting)
-fprintf('Energy_Plug_Loads: %3.f kWh \n',Energy_Plug_Loads)
-fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
+fprintf('Energy_Lighting: %,3.f kWh \n\n\n',Energy_Lighting)
+fprintf('Energy_Plug_Loads: %,.f kWh \n\n\n',Energy_Plug_Loads)
+fprintf('Total_Energy_School: %,.f kWh \n\n\n',Total_Energy_School)
 
 % 
 % This estimate includes no safety margins for estimated electrical
@@ -157,20 +157,20 @@ fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
 % well within the estimated requiremetns but no pumping power safetly
 % margins are included in these calculations at this time.
 % 
-% <html> <img src="grundfos.png" width="75%"> <p style="font-style:italic;
-% color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
-% the operational band.</p> </html>
-% 
-Pump_power = 0.040 * 40; %1.6kW
-fprintf('Pump_power: %0.1f kW \n',Pump_power)
+Pump_power = 0.40 * 40; %1.6kW
+fprintf('Pump_Power: %0.2f \n\n\n',Pump_Power)
+% <html>
+% <img src="grundfos.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 2.2: Grundfos pump data
+% sheet. The red lines indicate the operational band.</p> </html>
 % 
 % *Energy pumping power* 
 % As with the electrical lighting, this assessment assumes power is
 % available 24 hours a day for pumping. The pumping energy estimate is
 % therefore given as:
 % 
-Annual_Pumping_energy = Pump_power * 365 * 24; % 14,016 kWh
-fprintf('Annual_Pumping_energy: %3.0f kWh \n',Annual_Pumping_energy)
+Annual_Pumping_energy = Pump_Power * 365 * 24; % 14,016 kWh
+fprintf('Annual_Pumping_energy: %0.2f \n\n\n',Annual_Pumping_energy)
 % 
 % Under this assessment the reservoir will be sized to hold sufficient
 % water for daily use fluctuations but the pump will continuously fill the
@@ -182,8 +182,7 @@ fprintf('Annual_Pumping_energy: %3.0f kWh \n',Annual_Pumping_energy)
 % electrical lighting loads and pumping loads are given as: 
 % 
 % 758watts + 1.6kW = 2.36 kW
-Peak_Power = Total_Power_School/1000 + Pump_power; % 2.36 kW
-fprintf('Peak_Power: %2.2f kW \n',Peak_Power)
+Peak_Power = Total_Power_School + Pump_power; % 2.36 kW
 %% Load Calculations - MicroGrid Annual Energy Use 
 % 
 % The annual energy usage includes electrical lighting and pumping energy
@@ -192,7 +191,6 @@ fprintf('Peak_Power: %2.2f kW \n',Peak_Power)
 % 3,323 kWh + 14,016 kWh = 17,339 kWh
 
 Annual_Energy_Use = Total_Energy_School + Annual_Pumping_energy; %3,323 kWh + 14,016 kWh = 17,339 kWh
-fprintf('Annual_Energy_Use: %3.0f kWh \n',Annual_Energy_Use)
 %% Load Calculations - MicroGrid Load Factor 
 % 
 % This inital design reflects the 'grid like' access to electrial power;

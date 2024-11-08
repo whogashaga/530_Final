@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Microgrid Design and Simulation: Solar Pumping</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-11-07">
+<meta name="DC.source" content="solar_pumping_report.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Microgrid Design and Simulation: <b>Solar Pumping</b>
+</h1>
+<!--introduction-->
+<p>GROUP NAMES: Thomas Hudson, Zhen-Yu, Yen-Chun</p>
+<p>Project Type: <b>Solar Pumping</b>
+</p>
+<p>October 31, 2024</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Solar Pumping Microgrid - Description and Overview</a>
+</li>
+<li>
+<a href="#2">Load Calculations</a>
+</li>
+<li>
+<a href="#3">Load Calculations - Electrical Lighting</a>
+</li>
+<li>
+<a href="#4">Load Calculations - Domestic Water Pumping</a>
+</li>
+<li>
+<a href="#5">Load Calculations - MicroGrid Peak Power</a>
+</li>
+<li>
+<a href="#6">Load Calculations - MicroGrid Annual Energy Use</a>
+</li>
+<li>
+<a href="#7">Load Calculations - MicroGrid Load Factor</a>
+</li>
+<li>
+<a href="#8">References</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Solar Pumping Microgrid - Description and Overview</h2>
+<p>This microgrid project includes non-grid supplied power systems for domestic water supply and electrical lighting serving a small community in Uganda.</p>
+<p>In Uganda clean, potable water is often attained from vertical boreholes where aquifers are available. Hand pump kiosks allow for manual extraction of water but this is not effective for larger communities where community members face long wait times (figure 1.1).</p>
+<p>
+<img src="water_kiosk.png" width="75%">
+<p style="font-style:italic; color:gray;">Figure 1.1: People waiting to pump water.</p>
+</p>
+<p>This microgrid project develops electric power to pump domestic water from a borehole to a water storage tank. The system is designed to serve a community of 1800 persons. Figure 1.2 shows a general solar pumping diagram.</p>
+<p>
+<img src="solar_pump_generic.png" width="75%">
+<p style="font-style:italic; color:gray;">Figure 1.2: General components for solar water pumping.</p>
+</p>
+<p>Microgrid design permaeters for our community are based on an Engineering Without Borders 2020 implementation report by the Penn State University chapter of Engineers Without Borders. The chapter worked with the community of Namutamba for several years to understand design requirements such as daily water volume requirements and water storage.</p>
+<p>Water storage is required for buffering against cloudy days when the microgrid power source for water pumping is not available.</p>
+<p>This microgrid project includes electrical power and electrical storage requirements to serve a small school house. Electrical stroage is required for inclement weather where daily power resources fall below average.</p>
+<p>Microgrid projects (non-grid tied) with similar designs are implemented by Engineers Without Borders chapters in a number of African countries. Figure 1.3 shows solar projects in Uganda and Kenya where each colored circle indicates a solar installation. Reasons for solar adoption are solar can be more reliable than grid power, less expensive than grid power, and solar can be erected where needed.</p>
+<p>
+<img src="ewb_installs.png" width="75%">
+<p style="font-style:italic; color:gray;">Figure 1.3: EWB Solar Installation Projects.</p>
+</p>
+<p>Satellite images (figure 1.4) show large open areas that favor solar installation sites. The community is low density with few structurs and land use includes agriculture. The Pen State University chapter has completed reports describing the demographic and socioeconomic profiles for the community.</p>
+<p>
+<img src="uganda_satelite2.png" width="75%">
+<p style="font-style:italic; color:gray;">Figure 1.4: Satelite image of Uganda community.</p>
+</p>
+<p>The community is located at:</p>
+<div>
+<ul>
+<li>latitude: 0.5345</li>
+<li>longitude: 32.0877</li>
+</ul>
+</div>
+<h2 id="2">Load Calculations</h2>
+<p>This project is designed to power both a water pump and electrical loads for a small school house.</p>
+<h2 id="3">Load Calculations - Electrical Lighting</h2>
+<p>The school house floor plan is shown 2.1 with a floor area of 77 sqm (UNICEF architectural designs for schools in Rwanda).</p>
+<p>
+<img src="floor_plan.png" width="75%">
+<p style="font-style:italic; color:gray;">Figure 1.2: School house drawing.</p>
+</p>
+<p>The project scope for the school house includes power for lighting and a few small plug loads for computers and a printer.</p>
+<p>Electrical lighting power continues to fall with the apoption of LEDs. Several US states have adopted the 2021 International Energy Conservation Code (IECC) standards, including its lighting power density (LPD). The 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64 w/sqm. These standards are appropriate for this project as LED lighting is available in Uganda.</p>
+<p>Plug Load estimates include 4 laptops and a small printer. Laptops are estimated to run 30watts per device and operational 24 hrs/day. A small printer is estimated to draw 50watts and is operational 24 hrs/day.</p>
+<p>
+<b>School Electrical Lighting and Power</b>
+</p>
+<pre class="codeinput">Electrical_Power_Use = 7.64 * 77; <span class="comment">% 77sqm = 588 watts</span>
+Laptops = 4 * 30; <span class="comment">% watts/each = 120 watts</span>
+Printer = 50; <span class="comment">% watts</span>
+Total_Plug_Power = 120 + 50; <span class="comment">% total power plug loads: 170 watts</span>
+Total_Power_School = Electrical_Power_Use + Total_Plug_Power; <span class="comment">% total power all loads 758 watts</span>
+
+fprintf(<span class="string">'Electrical_Power_Use: %0.1f watts \n'</span>,Electrical_Power_Use)
+fprintf(<span class="string">'Total_Plug_Power: %0.1f watts \n'</span>,Total_Plug_Power)
+fprintf(<span class="string">'Total_Power_School: %0.1f watts \n'</span>,Total_Power_School)
+
+<span class="comment">% *Daily Use Assumptions*</span>
+<span class="comment">% School Operational Hours: 6 days/week 8am-5pm with 2 hour evening classes</span>
+<span class="comment">% 3 times per week.</span>
+<span class="comment">%</span>
+<span class="comment">% Total Operational Hours per week = 6days * 9hrs + 3days * 2hrs = 60 hrs</span>
+<span class="comment">%</span>
+<span class="comment">% *Energy Use School*</span>
+Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; <span class="comment">% = 1,834 kWh</span>
+Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; <span class="comment">% 1,489 kWh</span>
+Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; <span class="comment">%kWh</span>
+
+fprintf(<span class="string">'Energy_Lighting: %3.f kWh \n'</span>,Energy_Lighting)
+fprintf(<span class="string">'Energy_Plug_Loads: %3.f kWh \n'</span>,Energy_Plug_Loads)
+fprintf(<span class="string">'Total_Energy_School: %3.f kWh \n'</span>,Total_Energy_School)
+
+<span class="comment">%</span>
+<span class="comment">% This estimate includes no safety margins for estimated electrical</span>
+<span class="comment">% lighting power or lighting schedules at this time.</span>
+<span class="comment">%</span>
+</pre>
+<pre class="codeoutput">Electrical_Power_Use: 588.3 watts 
+Total_Plug_Power: 170.0 watts 
+Total_Power_School: 758.3 watts 
+Energy_Lighting: 1835 kWh 
+Energy_Plug_Loads: 1489 kWh 
+Total_Energy_School: 3325 kWh 
+</pre>
+<h2 id="4">Load Calculations - Domestic Water Pumping</h2>
+<p>Uganda has a national water standard of 20 liters per day per person. Our community of 1,800 persons requires 36,000 liters per day. The average water flow is calculated to be 1,500 liters/hr to deliver the reqiured volume in a 24 hour period. This initial opperational assumption is that electrical power is available 24 hours a day.</p>
+<p>The total static head pressure required includes the depth of the well and head pressure to move the water from the well to a reservoir. The total dynamic head pressure is estimated at 154 to 170 meters.</p>
+<p>A datasheet selected to meet the demand of pressure and flow is shown on figure 2.2. The pumps listed can deliver 1,500 liters/hr and the red lines indicate the requred band of 154 to 170 meters. SP 2A-48 can deliver the flow and pressure required. Another pump not shown on this data sheet is SP 2A-40 that lies junst under SP 2A-48 and can deliver the flow at that specified pressure. This pump has a 2.2kw (3hp) motor. The datasheet shows 0.04 kW power per stage and the SP 2A-40 has '40 stages.' The pump power is then given as 0.04 kw x 40 stages for 1.6kW. Pump selection is well within the estimated requiremetns but no pumping power safetly margins are included in these calculations at this time.</p>
+<p> <img src="grundfos.png" width="75%"> <p style="font-style:italic;
+color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
+the operational band.</p> </p>
+<pre class="codeinput">Pump_power = 0.040 * 40; <span class="comment">%1.6kW</span>
+fprintf(<span class="string">'Pump_power: %0.1f kW \n'</span>,Pump_power)
+<span class="comment">%</span>
+<span class="comment">% *Energy pumping power*</span>
+<span class="comment">% As with the electrical lighting, this assessment assumes power is</span>
+<span class="comment">% available 24 hours a day for pumping. The pumping energy estimate is</span>
+<span class="comment">% therefore given as:</span>
+<span class="comment">%</span>
+Annual_Pumping_energy = Pump_power * 365 * 24; <span class="comment">% 14,016 kWh</span>
+fprintf(<span class="string">'Annual_Pumping_energy: %3.0f kWh \n'</span>,Annual_Pumping_energy)
+<span class="comment">%</span>
+<span class="comment">% Under this assessment the reservoir will be sized to hold sufficient</span>
+<span class="comment">% water for daily use fluctuations but the pump will continuously fill the</span>
+<span class="comment">% reservoir and the peak power will match the pump power: 1.6kW.</span>
+<span class="comment">%</span>
+</pre>
+<pre class="codeoutput">Pump_power: 1.6 kW 
+Annual_Pumping_energy: 14016 kWh 
+</pre>
+<h2 id="5">Load Calculations - MicroGrid Peak Power</h2>
+<p>The current estimated loads assume power is always available. The total electrical lighting loads and pumping loads are given as:</p>
+<p>758watts + 1.6kW = 2.36 kW</p>
+<pre class="codeinput">Peak_Power = Total_Power_School/1000 + Pump_power; <span class="comment">% 2.36 kW</span>
+fprintf(<span class="string">'Peak_Power: %2.2f kW \n'</span>,Peak_Power)
+</pre>
+<pre class="codeoutput">Peak_Power: 2.36 kW 
+</pre>
+<h2 id="6">Load Calculations - MicroGrid Annual Energy Use</h2>
+<p>The annual energy usage includes electrical lighting and pumping energy and is given as:</p>
+<p>3,323 kWh + 14,016 kWh = 17,339 kWh</p>
+<pre class="codeinput">Annual_Energy_Use = Total_Energy_School + Annual_Pumping_energy; <span class="comment">%3,323 kWh + 14,016 kWh = 17,339 kWh</span>
+fprintf(<span class="string">'Annual_Energy_Use: %3.0f kWh \n'</span>,Annual_Energy_Use)
+</pre>
+<pre class="codeoutput">Annual_Energy_Use: 17341 kWh 
+</pre>
+<h2 id="7">Load Calculations - MicroGrid Load Factor</h2>
+<p>This inital design reflects the 'grid like' access to electrial power; that is, electrical power is assumed to be available when needed from microgrid resources. The 1.6kW pumping power will likely be constant as it has been sized for 24 hour operation. If the pump does turn off it will occur when little water is being used (at night) and once the reservoir has been filled. Electrical lighting power usage is shown here to operate during a Monday through Saturday and 8am - 6pm schedule and contributes to the lower load factor.</p>
+<p>The load factor is given as Total Annual Energy Use / (Peak Demand * 365 days)</p>
+<pre class="codeinput">Load_factor = Annual_Energy_Use/(Peak_Power * 24 * 365);
+fprintf(<span class="string">'Load Factor: %0.2f \n\n\n'</span>,Load_factor)
+</pre>
+<pre class="codeoutput">Load Factor: 0.84 
+
+
+</pre>
+<h2 id="8">References</h2>
+<div>
+<ul>
+<li>Reference for IECC Lighting Power Density: <a href="a">href="https://www.archtoolbox.com/recommended-lighting-levels/"</a>link&lt;/a&gt;</li>
+<li>2019 Solar Prices for Kenya: <a href="https://energypedia.info/wiki/File">https://energypedia.info/wiki/File</a>:Solar_Prices_KE_Matrix.xlsx</li>
+<li>Solar Powered Water Guidlines Rwanda: <a href="https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing">https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing</a>
+</li>
+</ul>
+</div>
+<p>Start with a few sentence description of the load and its characterstics. You'll need to determine the daily kWh of your load, and the load factor. (The load factor is the ratio of daily average power to daily peak power; see the instructions for more discussion). Include all assumptions and calculations. 2 pts for a good description of how you arrived at your estimated daily kWh load. 2 pts for a description of how you arrived at an estimate of load factor. 1 pt for neatness and completeness.</p>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Microgrid Design and Simulation: *Solar Pumping*  
+% 
+% GROUP NAMES: Thomas Hudson, Zhen-Yu, Yen-Chun
+%    
+% Project Type: *Solar Pumping*  
+% 
+% October 31, 2024
+
+
+%% Solar Pumping Microgrid - Description and Overview
+% 
+% This microgrid project includes non-grid supplied power systems for 
+% domestic water supply and electrical lighting serving a small community
+% in Uganda.
+% 
+% In Uganda clean, potable water is often attained from vertical boreholes 
+% where aquifers are available. Hand pump kiosks allow for manual extraction of 
+% water but this is not effective for larger communities where
+% community members face long wait times (figure 1.1).  
+% 
+%
+% <html>
+% <img src="water_kiosk.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 1.1: People waiting to pump water.</p>
+% </html>
+% 
+% This microgrid project develops electric power to pump domestic water
+% from a borehole to a water storage tank. The system is designed to serve
+% a community of 1800 persons. Figure 1.2 shows a general solar pumping
+% diagram.
+% 
+% <html>
+% <img src="solar_pump_generic.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 1.2: General components for solar water pumping.</p>
+% </html>
+% 
+% Microgrid design permaeters for our community are based on an 
+% Engineering Without Borders 2020 implementation report by the Penn State 
+% University chapter of Engineers Without Borders. The chapter worked with 
+% the community of Namutamba for several years to understand design requirements 
+% such as daily water volume requirements and water storage. 
+% 
+% Water storage is required for buffering against cloudy days when the microgrid 
+% power source for water pumping is not available.
+% 
+% This microgrid project includes electrical power and electrical storage 
+% requirements to serve a small school house. Electrical stroage is required 
+% for inclement weather where daily power resources fall below average. 
+% 
+% Microgrid projects (non-grid tied) with similar designs are
+% implemented by Engineers Without Borders chapters in a number of African
+% countries. Figure 1.3 shows solar projects in Uganda and Kenya where each 
+% colored circle indicates a solar installation. Reasons for solar 
+% adoption are solar can be more reliable than grid power, less expensive 
+% than grid power, and solar can be erected where needed. 
+% 
+% <html>
+% <img src="ewb_installs.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 1.3: EWB Solar Installation Projects.</p>
+% </html>
+% 
+% Satellite images (figure 1.4) show large open areas that favor solar 
+% installation sites. The community is low density with few structurs and land 
+% use includes agriculture. The Pen State University chapter has completed
+% reports describing the demographic and socioeconomic profiles for
+% the community.
+% 
+% <html>
+% <img src="uganda_satelite2.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 1.4: Satelite image of Uganda community.</p>
+% </html>
+% 
+% The community is located at:  
+% 
+% * latitude:  0.5345
+% * longitude: 32.0877
+% 
+
+%% Load Calculations
+% This project is designed to power both a water pump and electrical loads
+% for a small school house.
+%
+%% Load Calculations - Electrical Lighting
+% The school house floor plan is shown 2.1 with a floor area of 77 sqm
+% (UNICEF architectural designs for schools in Rwanda).
+% 
+% <html>
+% <img src="floor_plan.png" width="75%">
+% <p style="font-style:italic; color:gray;">Figure 1.2: School house drawing.</p>
+% </html> 
+%
+% The project scope for the school house includes power for lighting and a
+% few small plug loads for computers and a printer. 
+% 
+% Electrical lighting power continues to fall with the apoption of LEDs.
+% Several US states have adopted the 2021 International Energy Conservation
+% Code (IECC) standards, including its lighting power density (LPD). The
+% 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64
+% w/sqm. These standards are appropriate for this project as LED lighting
+% is available in Uganda.
+%
+% Plug Load estimates include 4 laptops and a small printer. Laptops are
+% estimated to run 30watts per device and operational 24 hrs/day. A small
+% printer is estimated to draw 50watts and is operational 24 hrs/day.
+% 
+% 
+% *School Electrical Lighting and Power*
+Electrical_Power_Use = 7.64 * 77; % 77sqm = 588 watts
+Laptops = 4 * 30; % watts/each = 120 watts
+Printer = 50; % watts
+Total_Plug_Power = 120 + 50; % total power plug loads: 170 watts
+Total_Power_School = Electrical_Power_Use + Total_Plug_Power; % total power all loads 758 watts
+
+fprintf('Electrical_Power_Use: %0.1f watts \n',Electrical_Power_Use)
+fprintf('Total_Plug_Power: %0.1f watts \n',Total_Plug_Power)
+fprintf('Total_Power_School: %0.1f watts \n',Total_Power_School) 
+
+% *Daily Use Assumptions* 
+% School Operational Hours: 6 days/week 8am-5pm with 2 hour evening classes
+% 3 times per week. 
+% 
+% Total Operational Hours per week = 6days * 9hrs + 3days * 2hrs = 60 hrs
+% 
+% *Energy Use School* 
+Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; % = 1,834 kWh
+Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; % 1,489 kWh
+Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; %kWh
+
+fprintf('Energy_Lighting: %3.f kWh \n',Energy_Lighting)
+fprintf('Energy_Plug_Loads: %3.f kWh \n',Energy_Plug_Loads)
+fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
+
+% 
+% This estimate includes no safety margins for estimated electrical
+% lighting power or lighting schedules at this time.
+% 
+%% Load Calculations - Domestic Water Pumping 
+% 
+% Uganda has a national water standard of 20 liters per day per person. Our
+% community of 1,800 persons requires 36,000 liters per day. The average
+% water flow is calculated to be 1,500 liters/hr to deliver the reqiured
+% volume in a 24 hour period. This initial opperational assumption is that
+% electrical power is available 24 hours a day.
+% 
+% The total static head pressure required includes the depth of the well
+% and head pressure to move the water from the well to a reservoir. The
+% total dynamic head pressure is estimated at 154 to 170 meters.
+% 
+% A datasheet selected to meet the demand of pressure and flow is shown on
+% figure 2.2. The pumps listed can deliver 1,500 liters/hr and the red
+% lines indicate the requred band of 154 to 170 meters. SP 2A-48 can deliver the
+% flow and pressure required. Another pump not shown on this data sheet is
+% SP 2A-40 that lies junst under SP 2A-48 and can deliver the flow at that
+% specified pressure. This pump has a 2.2kw (3hp) motor. The datasheet
+% shows 0.04 kW power per stage and the SP 2A-40 has '40 stages.' The pump
+% power is then given as 0.04 kw x 40 stages for 1.6kW. Pump selection is
+% well within the estimated requiremetns but no pumping power safetly
+% margins are included in these calculations at this time.
+% 
+% <html> <img src="grundfos.png" width="75%"> <p style="font-style:italic;
+% color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
+% the operational band.</p> </html>
+% 
+Pump_power = 0.040 * 40; %1.6kW
+fprintf('Pump_power: %0.1f kW \n',Pump_power)
+% 
+% *Energy pumping power* 
+% As with the electrical lighting, this assessment assumes power is
+% available 24 hours a day for pumping. The pumping energy estimate is
+% therefore given as:
+% 
+Annual_Pumping_energy = Pump_power * 365 * 24; % 14,016 kWh
+fprintf('Annual_Pumping_energy: %3.0f kWh \n',Annual_Pumping_energy)
+% 
+% Under this assessment the reservoir will be sized to hold sufficient
+% water for daily use fluctuations but the pump will continuously fill the
+% reservoir and the peak power will match the pump power: 1.6kW.  
+% 
+%% Load Calculations - MicroGrid Peak Power 
+% 
+% The current estimated loads assume power is always available.  The total
+% electrical lighting loads and pumping loads are given as: 
+% 
+% 758watts + 1.6kW = 2.36 kW
+Peak_Power = Total_Power_School/1000 + Pump_power; % 2.36 kW
+fprintf('Peak_Power: %2.2f kW \n',Peak_Power)
+%% Load Calculations - MicroGrid Annual Energy Use 
+% 
+% The annual energy usage includes electrical lighting and pumping energy
+% and is given as:
+% 
+% 3,323 kWh + 14,016 kWh = 17,339 kWh
+
+Annual_Energy_Use = Total_Energy_School + Annual_Pumping_energy; %3,323 kWh + 14,016 kWh = 17,339 kWh
+fprintf('Annual_Energy_Use: %3.0f kWh \n',Annual_Energy_Use)
+%% Load Calculations - MicroGrid Load Factor 
+% 
+% This inital design reflects the 'grid like' access to electrial power;
+% that is, electrical power is assumed to be available when needed from
+% microgrid resources. The 1.6kW pumping power will likely be constant as
+% it has been sized for 24 hour operation. If the pump does turn off it
+% will occur when little water is being used (at night) and once the
+% reservoir has been filled. Electrical lighting power usage is shown here
+% to operate during a Monday through Saturday and 8am - 6pm schedule and
+% contributes to the lower load factor.
+% 
+% The load factor is given as Total Annual Energy Use / (Peak Demand * 365 days)
+
+Load_factor = Annual_Energy_Use/(Peak_Power * 24 * 365);
+fprintf('Load Factor: %0.2f \n\n\n',Load_factor)
+
+%% References 
+%  
+% 
+% * Reference for IECC Lighting Power Density: <a href="https://www.archtoolbox.com/recommended-lighting-levels/">link</a>
+% * 2019 Solar Prices for Kenya: https://energypedia.info/wiki/File:Solar_Prices_KE_Matrix.xlsx
+% * Solar Powered Water Guidlines Rwanda: https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing
+% 
+% 
+% 
+% Start with a few sentence description of the load and its characterstics.
+% You'll need to determine the daily kWh of your load, and the load factor.
+% (The load factor is the ratio of daily average power to daily peak power;
+% see the instructions for more discussion). Include all assumptions and
+% calculations.
+% 2 pts for a good description of how you arrived at your estimated daily
+% kWh load.
+% 2 pts for a description of how you arrived at an estimate of load factor.
+% 1 pt for neatness and completeness.
+
+
+
+
+
+
+
+##### SOURCE END #####
+-->
+</body>
+</html>
