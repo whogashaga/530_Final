@@ -86,7 +86,7 @@
 % 
 % <html>
 % <img src="floor_plan.png" width="75%">
-% <p style="font-style:italic; color:gray;">Figure 1.2: School house drawing.</p>
+% <p style="font-style:italic; color:gray;">Figure 2.1: School house drawing.</p>
 % </html> 
 %
 % The project scope for the school house includes power for lighting and a
@@ -208,8 +208,7 @@ fprintf('Load Factor: %0.2f \n\n\n',Load_factor)
 
 %% References 
 %  
-% 
-% * Reference for IECC Lighting Power Density: <a href="https://www.archtoolbox.com/recommended-lighting-levels/">link</a>
+% * Reference for IECC Lighting Power Density: https://www.archtoolbox.com/recommended-lighting-levels
 % * 2019 Solar Prices for Kenya: https://energypedia.info/wiki/File:Solar_Prices_KE_Matrix.xlsx
 % * Solar Powered Water Guidlines Rwanda: https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing
 % 

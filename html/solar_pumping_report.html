@@ -9,7 +9,7 @@ To make changes, update the MATLAB code and republish this document.
 <title>Microgrid Design and Simulation: Solar Pumping</title>
 <meta name="generator" content="MATLAB 24.2">
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
-<meta name="DC.date" content="2024-11-07">
+<meta name="DC.date" content="2024-11-08">
 <meta name="DC.source" content="solar_pumping_report.m">
 <style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
@@ -151,10 +151,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <p>The school house floor plan is shown 2.1 with a floor area of 77 sqm (UNICEF architectural designs for schools in Rwanda).</p>
 <p>
 <img src="floor_plan.png" width="75%">
-<p style="font-style:italic; color:gray;">Figure 1.2: School house drawing.</p>
+<p style="font-style:italic; color:gray;">Figure 2.1: School house drawing.</p>
 </p>
 <p>The project scope for the school house includes power for lighting and a few small plug loads for computers and a printer.</p>
-<p>Electrical lighting power continues to fall with the apoption of LEDs. Several US states have adopted the 2021 International Energy Conservation Code (IECC) standards, including its lighting power density (LPD). The 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64 w/sqm. These standards are appropriate for this project as LED lighting is available in Uganda.</p>
+<p>Electrical lighting power continues to fall with the adoption of LEDs. Several US states have adopted the 2021 International Energy Conservation Code (IECC) standards, including its lighting power density (LPD). The 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64 w/sqm. These standards are appropriate for this project as LED lighting is available in Uganda.</p>
 <p>Plug Load estimates include 4 laptops and a small printer. Laptops are estimated to run 30watts per device and operational 24 hrs/day. A small printer is estimated to draw 50watts and is operational 24 hrs/day.</p>
 <p>
 <b>School Electrical Lighting and Power</b>
@@ -175,7 +175,7 @@ fprintf(<span class="string">'Total_Power_School: %0.1f watts \n'</span>,Total_P
 <span class="comment">%</span>
 <span class="comment">% Total Operational Hours per week = 6days * 9hrs + 3days * 2hrs = 60 hrs</span>
 <span class="comment">%</span>
-<span class="comment">% *Energy Use School*</span>
+<span class="comment">% *Energy Use School per year*</span>
 Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; <span class="comment">% = 1,834 kWh</span>
 Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; <span class="comment">% 1,489 kWh</span>
 Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; <span class="comment">%kWh</span>
@@ -203,8 +203,8 @@ Total_Energy_School: 3325 kWh
 <p> <img src="grundfos.png" width="75%"> <p style="font-style:italic;
 color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
 the operational band.</p> </p>
-<pre class="codeinput">Pump_power = 0.040 * 40; <span class="comment">%1.6kW</span>
-fprintf(<span class="string">'Pump_power: %0.1f kW \n'</span>,Pump_power)
+<pre class="codeinput">Pump_power = 0.040 * 40; <span class="comment">%1.6kW/hr</span>
+fprintf(<span class="string">'Pump_power: %0.1f kW/hr \n'</span>,Pump_power)
 <span class="comment">%</span>
 <span class="comment">% *Energy pumping power*</span>
 <span class="comment">% As with the electrical lighting, this assessment assumes power is</span>
@@ -219,7 +219,7 @@ fprintf(<span class="string">'Annual_Pumping_energy: %3.0f kWh \n'</span>,Annual
 <span class="comment">% reservoir and the peak power will match the pump power: 1.6kW.</span>
 <span class="comment">%</span>
 </pre>
-<pre class="codeoutput">Pump_power: 1.6 kW 
+<pre class="codeoutput">Pump_power: 1.6 kW/hr 
 Annual_Pumping_energy: 14016 kWh 
 </pre>
 <h2 id="5">Load Calculations - MicroGrid Peak Power</h2>
@@ -237,7 +237,7 @@ fprintf(<span class="string">'Annual_Energy_Use: %3.0f kWh \n'</span>,Annual_Ene
 <pre class="codeoutput">Annual_Energy_Use: 17341 kWh 
 </pre>
 <h2 id="7">Load Calculations - MicroGrid Load Factor</h2>
-<p>This inital design reflects the 'grid like' access to electrial power; that is, electrical power is assumed to be available when needed from microgrid resources. The 1.6kW pumping power will likely be constant as it has been sized for 24 hour operation. If the pump does turn off it will occur when little water is being used (at night) and once the reservoir has been filled. Electrical lighting power usage is shown here to operate during a Monday through Saturday and 8am - 6pm schedule and contributes to the lower load factor.</p>
+<p>This inital design reflects the 'grid like' access to electrial power; that is, electrical power is assumed to be available when needed from microgrid resources. The 1.6kW pumping power will likely be constant as it has been sized for 24 hour operation. If the pump does turn off it will occur when little water is being used (at night) and once the reservoir has been filled. Electrical lighting power usage is shown here to operate during a Monday through Saturday and 8am - 5pm schedule and contributes to the lower load factor.</p>
 <p>The load factor is given as Total Annual Energy Use / (Peak Demand * 365 days)</p>
 <pre class="codeinput">Load_factor = Annual_Energy_Use/(Peak_Power * 24 * 365);
 fprintf(<span class="string">'Load Factor: %0.2f \n\n\n'</span>,Load_factor)
@@ -249,7 +249,8 @@ fprintf(<span class="string">'Load Factor: %0.2f \n\n\n'</span>,Load_factor)
 <h2 id="8">References</h2>
 <div>
 <ul>
-<li>Reference for IECC Lighting Power Density: <a href="a">href="https://www.archtoolbox.com/recommended-lighting-levels/"</a>link&lt;/a&gt;</li>
+<li>Reference for IECC Lighting Power Density: <a href="https://www.archtoolbox.com/recommended-lighting-levels">https://www.archtoolbox.com/recommended-lighting-levels</a>
+</li>
 <li>2019 Solar Prices for Kenya: <a href="https://energypedia.info/wiki/File">https://energypedia.info/wiki/File</a>:Solar_Prices_KE_Matrix.xlsx</li>
 <li>Solar Powered Water Guidlines Rwanda: <a href="https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing">https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing</a>
 </li>
@@ -352,13 +353,13 @@ fprintf(<span class="string">'Load Factor: %0.2f \n\n\n'</span>,Load_factor)
 % 
 % <html>
 % <img src="floor_plan.png" width="75%">
-% <p style="font-style:italic; color:gray;">Figure 1.2: School house drawing.</p>
+% <p style="font-style:italic; color:gray;">Figure 2.1: School house drawing.</p>
 % </html> 
 %
 % The project scope for the school house includes power for lighting and a
 % few small plug loads for computers and a printer. 
 % 
-% Electrical lighting power continues to fall with the apoption of LEDs.
+% Electrical lighting power continues to fall with the adoption of LEDs.
 % Several US states have adopted the 2021 International Energy Conservation
 % Code (IECC) standards, including its lighting power density (LPD). The
 % 2021 IECC standards (LPD) is 0.71 watts per square foot(w/sqft) or 7.64
@@ -387,7 +388,7 @@ fprintf('Total_Power_School: %0.1f watts \n',Total_Power_School)
 % 
 % Total Operational Hours per week = 6days * 9hrs + 3days * 2hrs = 60 hrs
 % 
-% *Energy Use School* 
+% *Energy Use School per year* 
 Energy_Lighting = 60 * 52 * Electrical_Power_Use/1000; % = 1,834 kWh
 Energy_Plug_Loads = 24 * 365 * Total_Plug_Power/1000; % 1,489 kWh
 Total_Energy_School = Energy_Lighting + Energy_Plug_Loads; %kWh
@@ -428,8 +429,8 @@ fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
 % color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
 % the operational band.</p> </html>
 % 
-Pump_power = 0.040 * 40; %1.6kW
-fprintf('Pump_power: %0.1f kW \n',Pump_power)
+Pump_power = 0.040 * 40; %1.6kW/hr
+fprintf('Pump_power: %0.1f kW/hr \n',Pump_power)
 % 
 % *Energy pumping power* 
 % As with the electrical lighting, this assessment assumes power is
@@ -464,7 +465,7 @@ fprintf('Annual_Energy_Use: %3.0f kWh \n',Annual_Energy_Use)
 % it has been sized for 24 hour operation. If the pump does turn off it
 % will occur when little water is being used (at night) and once the
 % reservoir has been filled. Electrical lighting power usage is shown here
-% to operate during a Monday through Saturday and 8am - 6pm schedule and
+% to operate during a Monday through Saturday and 8am - 5pm schedule and
 % contributes to the lower load factor.
 % 
 % The load factor is given as Total Annual Energy Use / (Peak Demand * 365 days)
@@ -474,8 +475,7 @@ fprintf('Load Factor: %0.2f \n\n\n',Load_factor)
 
 %% References 
 %  
-% 
-% * Reference for IECC Lighting Power Density: <a href="https://www.archtoolbox.com/recommended-lighting-levels/">link</a>
+% * Reference for IECC Lighting Power Density: https://www.archtoolbox.com/recommended-lighting-levels
 % * 2019 Solar Prices for Kenya: https://energypedia.info/wiki/File:Solar_Prices_KE_Matrix.xlsx
 % * Solar Powered Water Guidlines Rwanda: https://drive.google.com/file/d/1lrx7iS9qK3hgrIIGmuUqderht0T_6Wgs/view?usp=sharing
 % 
