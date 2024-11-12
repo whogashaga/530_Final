@@ -162,8 +162,8 @@ fprintf('Total_Energy_School: %3.f kWh \n',Total_Energy_School)
 % color:gray;">Figure 2.2: Grundfos pump data sheet. The red lines indicate
 % the operational band.</p> </html>
 % 
-Pump_power = 0.040 * 40; %1.6kW/hr
-fprintf('Pump_power: %0.1f kW/hr \n',Pump_power)
+Pump_power = 0.040 * 40; %1.6kW
+fprintf('Pump_power: %0.1f kW \n',Pump_power)
 % 
 % *Energy pumping power* 
 % As with the electrical lighting, this assessment assumes power is
