@@ -24,8 +24,8 @@ load illuminationcurrenttimeseries
 meanWindSpeed = 8;
 maxWindSpeed = 15;
 
-meanLoadPower = 1.98e3; % Average Load
-maxLoadPower = 2.36e3;  % Peak Load
+meanLoadPower = 1.98e3;
+maxLoadPower = 2.36e3;
 
 maxIlluminationCurrent = 10; % 10 is fully sunny day
 
@@ -37,9 +37,6 @@ loadtimeseries.Data = fn_scaling(...
 illuminationcurrenttimeseries.Data = ...
     illuminationcurrenttimeseries.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries.Data);
 
-% Contingency Condition: Cloudy Day
-% illuminationcurrenttimeseries.Data = ...
-%     illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
 
 
 %% Wind Turbine Parameters
@@ -112,7 +109,7 @@ es.P_pe_rated = 120e3;
 es.P_pe_slew_upper = es.P_pe_rated / 1;
 es.P_pe_slew_lower = -es.P_pe_rated / 1;
 
-es.E_rated_kWh = 4; % Homer Output
+es.E_rated_kWh = 4;
 
 es.E_rated = es.E_rated_kWh*1000*3600;
 
@@ -143,7 +140,7 @@ ht.Kgsec = 20/60;
 % Short circuit current of 9.83 A
 % Maximum power point at 32.6 V (0.54 V per cell) and 9.31 A
 
-pv.P_rated = 9.7e3; % Homer Output
+pv.P_rated = 9.7e3;
 
 pv.Is = 1e-10; % Produces about  0.66 V at 9.8 A of current
 pv.Rs = 0.005; % Adjusted this to get the approximate max power point
@@ -158,7 +155,7 @@ pv.MPPT_sampleTime = 1;  % Not optimized
 
 %% Hydro
 
-ht.P_rated = 3e3; % Homer Output
+ht.P_rated = 3e3;
 
 % Parameters for Hills Creek Reservoir unit
 ht.tauw = 1.6;
