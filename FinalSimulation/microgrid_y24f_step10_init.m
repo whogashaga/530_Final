@@ -109,11 +109,11 @@ es.eta_pe = 0.95;
 es.eta_sm = sqrt(0.9);
 es.SOC_0 = 0.5;
 
-es.P_pe_rated = 120e3;
+es.P_pe_rated = 2.3e3*0 + 10e3;
 es.P_pe_slew_upper = es.P_pe_rated / 1;
 es.P_pe_slew_lower = -es.P_pe_rated / 1;
 
-es.E_rated_kWh = 4; % Homer Output
+es.E_rated_kWh = 4*1e6; % Homer Output
 
 es.E_rated = es.E_rated_kWh*1000*3600;
 
@@ -195,7 +195,7 @@ wp.P_upper = wp.P_rated;
 wp.P_lower = 0;
 wp.P_upperRate = wp.P_rated/10;
 wp.P_lowerRate = -wp.P_upperRate;
-wp.Kgpri = 20;
+wp.Kgpri = 200;
 
 
 %% Closing
