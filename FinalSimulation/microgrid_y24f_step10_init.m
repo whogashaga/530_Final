@@ -102,40 +102,6 @@ wt.pitchctrl.upperLimit = 1;
 wt.pitchctrl.lowerLimit = 0;
 
 
-
-%% Energy Storage
-
-es.eta_pe = 0.95;
-es.eta_sm = sqrt(0.9);
-es.SOC_0 = 0.5;
-
-es.P_pe_rated = 2.3e3;
-es.P_pe_slew_upper = es.P_pe_rated / 1;
-es.P_pe_slew_lower = -es.P_pe_rated / 1;
-
-es.E_rated_kWh = 4; % Homer Output
-
-es.E_rated = es.E_rated_kWh*1000*3600;
-
-es.P_rated = es.P_pe_rated;
-
-
-
-%% Microgrid
-
-mg.H = 5;   
-mg.D = 1;
-mg.P_base = maxLoadPower;
-mg.wpu_0 = 1;
-mg.X = 0.05;
-
-es.Kgpri = 20;
-
-ht.Kgpri = 20;
-ht.Kgsec = 20/60;
-
-
-
 %% Solar
 
 % Parameters based on SolarWorld 300 module
@@ -155,6 +121,38 @@ pv.vd_0 = 0.7;
 
 pv.MPPT_sampleTime = 1;  % Not optimized
 
+
+%% Energy Storage
+
+es.eta_pe = 0.95;
+es.eta_sm = sqrt(0.9);
+es.SOC_0 = 0.5;
+
+es.P_pe_rated = 2.3e3; % Homer Output
+es.P_pe_rated = pv.P_rated; % To address insufficiency power of converter  
+es.P_pe_slew_upper = es.P_pe_rated / 1;
+es.P_pe_slew_lower = -es.P_pe_rated / 1;
+
+es.E_rated_kWh = 60; % Homer Output
+
+es.E_rated = es.E_rated_kWh*1000*3600;
+
+es.P_rated = es.P_pe_rated;
+
+
+
+%% Microgrid
+
+mg.H = 5;   
+mg.D = 1;
+mg.P_base = maxLoadPower;
+mg.wpu_0 = 1;
+mg.X = 0.05;
+
+es.Kgpri = 20;
+
+ht.Kgpri = 20;
+ht.Kgsec = 20/60;
 
 
 %% Hydro
@@ -188,7 +186,7 @@ ht.servo.initPos = 0.1;
 
 %% Water Pump (Deferrable Load)
 
-wp.P_rated = meanLoadPower;
+wp.P_rated = pv.P_rated;
 wp.height = 40;
 
 wp.P_upper = wp.P_rated;
