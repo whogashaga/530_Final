@@ -20,6 +20,7 @@ simu.maxStepSize = 1e-1;
 load windspeedtimeseries
 load loadtimeseries
 load illuminationcurrenttimeseries
+load illuminationcurrenttimeseries_clouded
 
 meanWindSpeed = 8;
 maxWindSpeed = 15;
@@ -39,7 +40,7 @@ illuminationcurrenttimeseries.Data = ...
 
 % Contingency Condition: Cloudy Day
 % illuminationcurrenttimeseries.Data = ...
-%     illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
+    % illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
 
 
 %% Wind Turbine Parameters
@@ -194,7 +195,7 @@ wp.P_upper = wp.P_rated;
 wp.P_lower = 0;
 wp.P_upperRate = wp.P_rated/10;
 wp.P_lowerRate = -wp.P_upperRate;
-
+wp.Kgpri = 20;
 
 
 %% Closing
