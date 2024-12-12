@@ -1,0 +1,695 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>microgrid_y24f_step10_init</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-12-12">
+<meta name="DC.source" content="microgrid_y24f_step10_init.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Microgrid Simulation</a>
+</li>
+<li>
+<a href="#2">Simulation settings</a>
+</li>
+<li>
+<a href="#3">Data</a>
+</li>
+<li>
+<a href="#4">Wind Turbine Parameters</a>
+</li>
+<li>
+<a href="#5">Solar</a>
+</li>
+<li>
+<a href="#6">Energy Storage</a>
+</li>
+<li>
+<a href="#7">Microgrid</a>
+</li>
+<li>
+<a href="#8">Hydro</a>
+</li>
+<li>
+<a href="#9">Water Pump (Deferrable Load)</a>
+</li>
+<li>
+<a href="#11">Plot #2 Delta Frequency Per Unit vs Time</a>
+</li>
+<li>
+<a href="#12">Plot #3 Delta Frequency Per Unit vs Time</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Microgrid Simulation</h2>
+<p>Created: ECE 530 class of fall 2024</p>
+<pre class="codeinput">
+<span class="comment">%clc</span>
+<span class="comment">%close all   % close figure windows</span>
+<span class="comment">%clear</span>
+<span class="comment">%format compact</span>
+</pre>
+<h2 id="2">Simulation settings</h2>
+<pre class="codeinput">simu.endTime = 60*60*20.5; <span class="comment">%60*60*24;</span>
+simu.maxStepSize = 1e-1;
+</pre>
+<h2 id="3">Data</h2>
+<pre class="codeinput">load <span class="string">windspeedtimeseries</span>
+load <span class="string">loadtimeseries</span>
+load <span class="string">illuminationcurrenttimeseries</span>
+load <span class="string">illuminationcurrenttimeseries_clouded</span>
+
+meanWindSpeed = 8;
+maxWindSpeed = 15;
+
+meanLoadPower = 1.98e3; <span class="comment">% Average Load</span>
+maxLoadPower = 2.36e3;  <span class="comment">% Peak Load</span>
+
+maxIlluminationCurrent = 10; <span class="comment">% 10 is fully sunny day</span>
+
+<span class="comment">% Scaling</span>
+windspeedtimeseries.Data = fn_scaling(<span class="keyword">...</span>
+    meanWindSpeed*windspeedtimeseries.Data,meanWindSpeed,maxWindSpeed);
+loadtimeseries.Data = fn_scaling(<span class="keyword">...</span>
+    loadtimeseries.Data,meanLoadPower,maxLoadPower);
+<span class="comment">% illuminationcurrenttimeseries.Data = ...</span>
+    <span class="comment">% illuminationcurrenttimeseries.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries.Data);</span>
+
+<span class="comment">% Contingency Condition: Cloudy Day</span>
+illuminationcurrenttimeseries.Data = <span class="keyword">...</span>
+    illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
+</pre>
+<pre class="codeoutput">
+Equation solved.
+
+fsolve completed because the vector of function values is near zero
+as measured by the value of the function tolerance, and
+the problem appears regular as measured by the gradient.
+
+
+Equation solved.
+
+fsolve completed because the vector of function values is near zero
+as measured by the value of the function tolerance, and
+the problem appears regular as measured by the gradient.
+
+</pre>
+<h2 id="4">Wind Turbine Parameters</h2>
+<pre class="codeinput">wt.N_turbines = 1;
+
+wt.rho = 1.2; <span class="comment">% Density of air kg/m^3</span>
+
+<span class="comment">% XANT 100 kW</span>
+wt.Pgen_rated = 100e3;
+wt.Cfric = 0.01*100e3/6^2;    <span class="comment">% Nm/(rad/s)    B*6^2 = 0.01*100e3</span>
+wt.bladeLength = 11;
+wt.bladeWeight = 1000;    <span class="comment">% From http://windpower.sandia.gov/other/041605C.pdf</span>
+wt.J = 3*1/3*wt.bladeWeight*wt.bladeLength^2;  <span class="comment">% Missing generator, gearbox, shaft, etc...</span>
+
+wt.A = pi*wt.bladeLength^2;
+
+wt.w_0 = 0;
+
+<span class="comment">% Cp curve modeling</span>
+<span class="comment">% lambdaai = 1/( (1/(lambda+0.08*beta)) - 0.035/(beta^3+1) )</span>
+<span class="comment">% cp = c1*(c2/lambdaai-c3*beta-c4)*exp(-c5/lambdaai) + c6*lambda</span>
+plot_cp = 0;
+<span class="keyword">if</span> plot_cp
+    wt.c = [
+        0.5176
+        116
+        0.4
+        5
+        21
+        0.0068
+        ];
+    figure
+    lambda = [0:0.1:13];
+    <span class="keyword">for</span> beta = [0:5:30];
+        lambdaai = 1./(1./(lambda+0.08*beta) - 0.035./(beta.^3+1));
+        cp = wt.c(1)*(wt.c(2)./lambdaai - wt.c(3)*beta - wt.c(4)) .* exp(-wt.c(5)./lambdaai) + wt.c(6)*lambda;
+        hold <span class="string">on</span>
+        plot(lambda,cp)
+        hold <span class="string">off</span>
+    <span class="keyword">end</span>
+    axis([0 13 0 0.5])
+    xlabel(<span class="string">'lambda (tip speed ratio)'</span>)
+    ylabel(<span class="string">'Cp'</span>)
+<span class="keyword">end</span>
+
+<span class="comment">% From Cp(lambda) plot</span>
+wt.lambda_opt = 8.1;
+wt.Cp_opt = 0.48;
+
+<span class="comment">% Region 2 and 3 boundary -&gt; rated rotational speed and wind speed</span>
+wt.u_rated = (wt.Pgen_rated/(wt.Cp_opt*0.5*1.2*wt.A))^(1/3);   <span class="comment">% P_rated = Cp_max*0.5*A*bladeLength*u_rated^3</span>
+wt.w_rated = wt.lambda_opt*wt.u_rated/wt.bladeLength;
+wt.Tgen_rated = wt.Pgen_rated/wt.w_rated;
+
+wt.pitchctrl.kp = 1;
+wt.pitchctrl.ki = 0.1;
+wt.pitchctrl.upperLimit = 1;
+wt.pitchctrl.lowerLimit = 0;
+</pre>
+<h2 id="5">Solar</h2>
+<pre class="codeinput">
+<span class="comment">% Parameters based on SolarWorld 300 module</span>
+<span class="comment">% 300 W panel, 60 cells, 5 W per cell</span>
+<span class="comment">% Open circuit voltage of 40 V (0.66 V per cell)</span>
+<span class="comment">% Short circuit current of 9.83 A</span>
+<span class="comment">% Maximum power point at 32.6 V (0.54 V per cell) and 9.31 A</span>
+
+pv.P_rated = 9.7e3; <span class="comment">% Homer Output</span>
+
+pv.Is = 1e-10; <span class="comment">% Produces about  0.66 V at 9.8 A of current</span>
+pv.Rs = 0.0001; <span class="comment">% Adjusting down increased power by up to 8%.</span>
+pv.Rp = 2500;  <span class="comment">% Based off of L. Ma et al. "The Measurement of Series and Shunt Resistances of the Silicon Solar Cell Based on LabVIEW"</span>
+pv.VT = 0.026;
+
+pv.vd_0 = 0.7;
+
+pv.MPPT_sampleTime = 1;  <span class="comment">% LEFT at ONE SECOND</span>
+</pre>
+<h2 id="6">Energy Storage</h2>
+<pre class="codeinput">es.eta_pe = 0.95;
+es.eta_sm = sqrt(0.9);
+es.SOC_0 = 0.5;
+
+es.P_pe_rated = 25.3e3; <span class="comment">% Homer Output</span>
+es.P_pe_rated = pv.P_rated; <span class="comment">% To address insufficiency power of converter</span>
+es.P_pe_slew_upper = es.P_pe_rated / 1;
+es.P_pe_slew_lower = -es.P_pe_rated / 1;
+
+es.E_rated_kWh = 30.7; <span class="comment">% SEE REPORT SUMMARY</span>
+
+es.E_rated = es.E_rated_kWh*1000*3600;
+
+es.P_rated = es.P_pe_rated;
+</pre>
+<h2 id="7">Microgrid</h2>
+<pre class="codeinput">mg.H = 5;
+mg.D = 1;
+mg.P_base = maxLoadPower;
+mg.wpu_0 = 1;
+mg.X = 0.05;
+
+es.Kgpri = 20;
+
+ht.Kgpri = 20;
+ht.Kgsec = 20/60;
+</pre>
+<h2 id="8">Hydro</h2>
+<pre class="codeinput">ht.P_rated = 5; <span class="comment">% Homer Output</span>
+
+<span class="comment">% Parameters for Hills Creek Reservoir unit</span>
+ht.tauw = 1.6;
+ht.q_0 = 0.1;
+ht.beta = 10;
+ht.powercontroller.kp = 1.5/20; <span class="comment">% Divide by 20 to account for droop</span>
+ht.powercontroller.ki = 0.3/20;
+ht.powercontroller.kd = 0.55/20;
+
+ht.powercontroller.int_0 = 0.1;
+ht.powercontroller.kt = 1;
+ht.powercontroller.Td = 0.05;
+
+ht.powercontroller.lowerLimit = 0;
+ht.powercontroller.upperLimit = 1;
+
+ht.servo.tau = 0.35;
+ht.servo.kg = 3;
+ht.servo.speedUpperLimit = 0.077;
+ht.servo.speedLowerLimit = -0.077;
+ht.servo.posUpperLimit = 1;
+ht.servo.posLowerLimit = 0.05;
+ht.servo.initPos = 0.1;
+</pre>
+<h2 id="9">Water Pump (Deferrable Load)</h2>
+<pre class="codeinput">wp.P_rated = pv.P_rated;
+wp.height = 40;
+
+wp.P_upper = wp.P_rated;
+wp.P_lower = 0;
+wp.P_upperRate = wp.P_rated/10;
+wp.P_lowerRate = -wp.P_upperRate;
+wp.Kgpri = 20;
+</pre>
+<pre class="codeinput">simresults = sim(<span class="string">"microgrid_y24f_step10"</span>);   <span class="comment">% ADDED to access data</span>
+
+loggedData = simresults.logsout;      <span class="comment">% ADDED to access data</span>
+p_ld = loggedData.get(<span class="string">'p_ld'</span>).Values.Data;  <span class="comment">% load</span>
+p_pv = loggedData.get(<span class="string">'p_pv'</span>).Values.Data;
+p_es = loggedData.get(<span class="string">'p_es'</span>).Values.Data;
+<span class="comment">%p_ht = loggedData.get('p_ht').Values.Data;</span>
+p_wp = loggedData.get(<span class="string">'p_wp'</span>).Values.Data; <span class="comment">% water pump - Deferrable load</span>
+soc = loggedData.get(<span class="string">'SOC'</span>).Values.Data;
+delta_wpu = loggedData.get(<span class="string">'delta_wpu'</span>).Values.Data;
+
+
+x_time = 1:length(soc);
+figure(1);
+
+plot(x_time, p_ld, <span class="string">'r-'</span>, <span class="string">'LineWidth'</span>, 1.5);
+hold <span class="string">on</span>;
+plot(x_time, p_pv, <span class="string">'m-'</span>, <span class="string">'LineWidth'</span>, 1.5);
+plot(x_time, p_es, <span class="string">'b-'</span>, <span class="string">'LineWidth'</span>, 1.5);
+plot(x_time, p_wp, <span class="string">'g-'</span>, <span class="string">'LineWidth'</span>, 1.5);
+<span class="comment">%plot(x_time, p_ht, 'k-', 'LineWidth', 1.5);</span>
+ylabel(<span class="string">'Power (watts)'</span>);
+
+hold <span class="string">off</span>;
+
+
+set(gcf, <span class="string">'Position'</span>, [1550, 50, 800, 900]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+title(<span class="string">'Load Power, PV Power, Energy Storage Power, Water Pump Power vs Time'</span>);
+legend(<span class="string">'Total Load Power'</span>, <span class="string">'PV Power'</span>,<span class="string">'Energy Storage Power'</span>, <span class="string">'Water Pump'</span>);  <span class="comment">% Add legend</span>
+legend <span class="string">location</span> <span class="string">northwest</span>
+grid <span class="string">on</span>;
+</pre>
+<pre class="codeoutput">Warning: Model
+'&lt;a href="matlab:open_system ('microgrid_y24f_step10')"&gt;microgrid_y24f_step10&lt;/a&gt;'
+contains 1 algebraic
+loops.
+Suggested Actions:
+    &bull; Highlight and view
+    information about the
+    algebraic loops in
+    the model using the
+    Simulink.BlockDiagram.getAlgebraicLoops
+    function. - &lt;a href="matlab:Simulink.BlockDiagram.getAlgebraicLoops('microgrid_y24f_step10');"&gt;Open&lt;/a&gt;
+    &bull; Suppress this
+    diagnostic by setting
+    the 'Algebraic Loop'
+    diagnostic parameter
+    to 'none'. - &lt;a href="matlab:set_param('microgrid_y24f_step10','AlgebraicLoopMsg', 'none');"&gt;Fix&lt;/a&gt;
+ 
+Found algebraic loop that contains: 
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Sum4','error')"&gt;microgrid_y24f_step10/pv/Sum4&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Gain3','error')"&gt;microgrid_y24f_step10/pv/Gain3&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Sum2','error')"&gt;microgrid_y24f_step10/pv/Sum2&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Gain1','error')"&gt;microgrid_y24f_step10/pv/Gain1&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Math Function','error')"&gt;microgrid_y24f_step10/pv/Math Function&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Sum3','error')"&gt;microgrid_y24f_step10/pv/Sum3&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Gain2','error')"&gt;microgrid_y24f_step10/pv/Gain2&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Sum1','error')"&gt;microgrid_y24f_step10/pv/Sum1&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Gain','error')"&gt;microgrid_y24f_step10/pv/Gain&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Sum','error')"&gt;microgrid_y24f_step10/pv/Sum&lt;/a&gt;
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Algebraic Constraint','error')"&gt;microgrid_y24f_step10/pv/Algebraic Constraint&lt;/a&gt; (algebraic variable)
+&lt;a href="matlab:open_and_hilite_hyperlink ('microgrid_y24f_step10/pv/Product','error')"&gt;microgrid_y24f_step10/pv/Product&lt;/a&gt; (algebraic variable)
+</pre>
+<img vspace="5" hspace="5" src="microgrid_y24f_step10_init_01.png" alt=""> <h2 id="11">Plot #2 Delta Frequency Per Unit vs Time</h2>
+<pre>The delta frequency per unit shows the frequency maintaining within +/-
+0.10 per the problem statment.</pre>
+<pre class="codeinput">figure(2);
+plot(x_time, delta_wpu, <span class="string">'b-'</span>, <span class="string">'LineWidth'</span>, 2);
+ylabel(<span class="string">'Delta Frequency Per Unit'</span>);
+ylim([-0.1 .1]);
+set(gcf, <span class="string">'Position'</span>, [1550, 50, 800, 900]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+title(<span class="string">'Delta Frequency Per Unit vs Time'</span>);
+legend(<span class="string">'Delta Frequency PU'</span>);  <span class="comment">% Add legend</span>
+legend <span class="string">location</span> <span class="string">northwest</span>
+grid <span class="string">on</span>;
+disp(<span class="string">"finished."</span>)
+</pre>
+<pre class="codeoutput">finished.
+</pre>
+<img vspace="5" hspace="5" src="microgrid_y24f_step10_init_02.png" alt=""> <h2 id="12">Plot #3 Delta Frequency Per Unit vs Time</h2>
+<pre>The delta frequency per unit shows the frequency maintaining within +/-
+0.10 per the problem statment.</pre>
+<pre class="codeinput">figure(3);
+yyaxis <span class="string">left</span>
+
+hold <span class="string">on</span>;
+plot(x_time, p_es, <span class="string">'b-'</span>, <span class="string">'LineWidth'</span>, 1.5);
+ylabel(<span class="string">'Energy Storage (watts)'</span>);
+<span class="comment">%set(gca, 'YColor', 'b');</span>
+<span class="comment">%ylim([0 11e4]);</span>
+yyaxis <span class="string">right</span>
+plot(x_time, soc, <span class="string">'k-'</span>, <span class="string">'LineWidth'</span>, 2);
+hold <span class="string">off</span>;
+ylabel(<span class="string">'State of Charge'</span>);
+<span class="comment">%ylim([-0.1 1.015]);</span>
+set(gcf, <span class="string">'Position'</span>, [1550, 50, 800, 900]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+title(<span class="string">'Energy Storage and State of Charge vs Time'</span>);
+legend(<span class="string">'Energy Storage Power'</span>, <span class="string">'State Of Charge (SOC)'</span>);  <span class="comment">% Add legend</span>
+legend <span class="string">location</span> <span class="string">northwest</span>
+grid <span class="string">on</span>;
+</pre>
+<img vspace="5" hspace="5" src="microgrid_y24f_step10_init_03.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Microgrid Simulation
+% Created: ECE 530 class of fall 2024
+
+%clc
+%close all   % close figure windows
+%clear
+%format compact
+
+%% Simulation settings
+
+simu.endTime = 60*60*20.5; %60*60*24;
+simu.maxStepSize = 1e-1;
+
+
+%% Data
+
+load windspeedtimeseries
+load loadtimeseries
+load illuminationcurrenttimeseries
+load illuminationcurrenttimeseries_clouded
+
+meanWindSpeed = 8;
+maxWindSpeed = 15;
+
+meanLoadPower = 1.98e3; % Average Load
+maxLoadPower = 2.36e3;  % Peak Load
+
+maxIlluminationCurrent = 10; % 10 is fully sunny day
+
+% Scaling
+windspeedtimeseries.Data = fn_scaling(...
+    meanWindSpeed*windspeedtimeseries.Data,meanWindSpeed,maxWindSpeed);
+loadtimeseries.Data = fn_scaling(...
+    loadtimeseries.Data,meanLoadPower,maxLoadPower);
+% illuminationcurrenttimeseries.Data = ...
+    % illuminationcurrenttimeseries.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries.Data);
+
+% Contingency Condition: Cloudy Day
+illuminationcurrenttimeseries.Data = ...
+    illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
+
+
+%% Wind Turbine Parameters
+
+wt.N_turbines = 1;
+
+wt.rho = 1.2; % Density of air kg/m^3
+
+% XANT 100 kW
+wt.Pgen_rated = 100e3;
+wt.Cfric = 0.01*100e3/6^2;    % Nm/(rad/s)    B*6^2 = 0.01*100e3
+wt.bladeLength = 11;
+wt.bladeWeight = 1000;    % From http://windpower.sandia.gov/other/041605C.pdf
+wt.J = 3*1/3*wt.bladeWeight*wt.bladeLength^2;  % Missing generator, gearbox, shaft, etc...
+
+wt.A = pi*wt.bladeLength^2;
+
+wt.w_0 = 0;
+
+% Cp curve modeling
+% lambdaai = 1/( (1/(lambda+0.08*beta)) - 0.035/(beta^3+1) )
+% cp = c1*(c2/lambdaai-c3*beta-c4)*exp(-c5/lambdaai) + c6*lambda
+plot_cp = 0;
+if plot_cp
+    wt.c = [
+        0.5176
+        116
+        0.4
+        5
+        21
+        0.0068
+        ];
+    figure
+    lambda = [0:0.1:13];
+    for beta = [0:5:30];
+        lambdaai = 1./(1./(lambda+0.08*beta) - 0.035./(beta.^3+1));
+        cp = wt.c(1)*(wt.c(2)./lambdaai - wt.c(3)*beta - wt.c(4)) .* exp(-wt.c(5)./lambdaai) + wt.c(6)*lambda;
+        hold on
+        plot(lambda,cp)
+        hold off
+    end
+    axis([0 13 0 0.5])
+    xlabel('lambda (tip speed ratio)')
+    ylabel('Cp')
+end
+
+% From Cp(lambda) plot
+wt.lambda_opt = 8.1;
+wt.Cp_opt = 0.48;
+
+% Region 2 and 3 boundary -> rated rotational speed and wind speed
+wt.u_rated = (wt.Pgen_rated/(wt.Cp_opt*0.5*1.2*wt.A))^(1/3);   % P_rated = Cp_max*0.5*A*bladeLength*u_rated^3
+wt.w_rated = wt.lambda_opt*wt.u_rated/wt.bladeLength;
+wt.Tgen_rated = wt.Pgen_rated/wt.w_rated;
+
+wt.pitchctrl.kp = 1;
+wt.pitchctrl.ki = 0.1;
+wt.pitchctrl.upperLimit = 1;
+wt.pitchctrl.lowerLimit = 0;
+
+
+%% Solar
+
+% Parameters based on SolarWorld 300 module
+% 300 W panel, 60 cells, 5 W per cell
+% Open circuit voltage of 40 V (0.66 V per cell)
+% Short circuit current of 9.83 A
+% Maximum power point at 32.6 V (0.54 V per cell) and 9.31 A
+
+pv.P_rated = 9.7e3; % Homer Output
+
+pv.Is = 1e-10; % Produces about  0.66 V at 9.8 A of current
+pv.Rs = 0.0001; % Adjusting down increased power by up to 8%.
+pv.Rp = 2500;  % Based off of L. Ma et al. "The Measurement of Series and Shunt Resistances of the Silicon Solar Cell Based on LabVIEW"
+pv.VT = 0.026;
+
+pv.vd_0 = 0.7;
+
+pv.MPPT_sampleTime = 1;  % LEFT at ONE SECOND
+
+
+
+
+%% Energy Storage
+
+es.eta_pe = 0.95;
+es.eta_sm = sqrt(0.9);
+es.SOC_0 = 0.5;
+
+es.P_pe_rated = 25.3e3; % Homer Output
+es.P_pe_rated = pv.P_rated; % To address insufficiency power of converter  
+es.P_pe_slew_upper = es.P_pe_rated / 1;
+es.P_pe_slew_lower = -es.P_pe_rated / 1;
+
+es.E_rated_kWh = 30.7; % SEE REPORT SUMMARY
+
+es.E_rated = es.E_rated_kWh*1000*3600;
+
+es.P_rated = es.P_pe_rated;
+
+
+
+%% Microgrid
+
+mg.H = 5;   
+mg.D = 1;
+mg.P_base = maxLoadPower;
+mg.wpu_0 = 1;
+mg.X = 0.05;
+
+es.Kgpri = 20;
+
+ht.Kgpri = 20;
+ht.Kgsec = 20/60;
+
+
+%% Hydro
+
+ht.P_rated = 5; % Homer Output
+
+% Parameters for Hills Creek Reservoir unit
+ht.tauw = 1.6;
+ht.q_0 = 0.1;
+ht.beta = 10;
+ht.powercontroller.kp = 1.5/20; % Divide by 20 to account for droop       
+ht.powercontroller.ki = 0.3/20;  
+ht.powercontroller.kd = 0.55/20;
+
+ht.powercontroller.int_0 = 0.1;
+ht.powercontroller.kt = 1;
+ht.powercontroller.Td = 0.05;
+
+ht.powercontroller.lowerLimit = 0;    
+ht.powercontroller.upperLimit = 1; 
+ 
+ht.servo.tau = 0.35;
+ht.servo.kg = 3;
+ht.servo.speedUpperLimit = 0.077;
+ht.servo.speedLowerLimit = -0.077;
+ht.servo.posUpperLimit = 1;
+ht.servo.posLowerLimit = 0.05;
+ht.servo.initPos = 0.1;
+
+
+
+%% Water Pump (Deferrable Load)
+
+wp.P_rated = pv.P_rated;
+wp.height = 40;
+
+wp.P_upper = wp.P_rated;
+wp.P_lower = 0;
+wp.P_upperRate = wp.P_rated/10;
+wp.P_lowerRate = -wp.P_upperRate;
+wp.Kgpri = 20;
+
+
+
+%%
+simresults = sim("microgrid_y24f_step10");   % ADDED to access data
+
+loggedData = simresults.logsout;      % ADDED to access data
+p_ld = loggedData.get('p_ld').Values.Data;  % load
+p_pv = loggedData.get('p_pv').Values.Data;  
+p_es = loggedData.get('p_es').Values.Data;  
+%p_ht = loggedData.get('p_ht').Values.Data;
+p_wp = loggedData.get('p_wp').Values.Data; % water pump - Deferrable load
+soc = loggedData.get('SOC').Values.Data;
+delta_wpu = loggedData.get('delta_wpu').Values.Data;
+
+
+x_time = 1:length(soc);
+figure(1);
+
+plot(x_time, p_ld, 'r-', 'LineWidth', 1.5);  
+hold on;  
+plot(x_time, p_pv, 'm-', 'LineWidth', 1.5); 
+plot(x_time, p_es, 'b-', 'LineWidth', 1.5); 
+plot(x_time, p_wp, 'g-', 'LineWidth', 1.5); 
+%plot(x_time, p_ht, 'k-', 'LineWidth', 1.5);
+ylabel('Power (watts)');
+
+hold off;
+
+
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Load Power, PV Power, Energy Storage Power, Water Pump Power vs Time');
+legend('Total Load Power', 'PV Power','Energy Storage Power', 'Water Pump');  % Add legend
+legend location northwest
+grid on;
+%% Plot #2 Delta Frequency Per Unit vs Time
+%  The delta frequency per unit shows the frequency maintaining within +/-
+%  0.10 per the problem statment.
+
+figure(2);
+plot(x_time, delta_wpu, 'b-', 'LineWidth', 2); 
+ylabel('Delta Frequency Per Unit');
+ylim([-0.1 .1]);  
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Delta Frequency Per Unit vs Time');
+legend('Delta Frequency PU');  % Add legend
+legend location northwest
+grid on;
+disp("finished.")
+
+%% Plot #3 Delta Frequency Per Unit vs Time
+%  The delta frequency per unit shows the frequency maintaining within +/-
+%  0.10 per the problem statment.
+
+figure(3);
+yyaxis left
+ 
+hold on;  
+plot(x_time, p_es, 'b-', 'LineWidth', 1.5);    
+ylabel('Energy Storage (watts)');
+%set(gca, 'YColor', 'b');
+%ylim([0 11e4]);
+yyaxis right
+plot(x_time, soc, 'k-', 'LineWidth', 2); 
+hold off;
+ylabel('State of Charge');
+%ylim([-0.1 1.015]);  
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Energy Storage and State of Charge vs Time');
+legend('Energy Storage Power', 'State Of Charge (SOC)');  % Add legend
+legend location northwest
+grid on;
+##### SOURCE END #####
+-->
+</body>
+</html>
