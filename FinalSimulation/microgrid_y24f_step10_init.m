@@ -1,18 +1,15 @@
 %% Microgrid Simulation
 % Created: ECE 530 class of fall 2024
 
-clc
-close all   % close figure windows
-clear
-format compact
-
-
+%clc
+%close all   % close figure windows
+%clear
+%format compact
 
 %% Simulation settings
 
-simu.endTime = 60*60*24;
+simu.endTime = 60*60*20.5; %60*60*24;
 simu.maxStepSize = 1e-1;
-
 
 
 %% Data
@@ -35,12 +32,12 @@ windspeedtimeseries.Data = fn_scaling(...
     meanWindSpeed*windspeedtimeseries.Data,meanWindSpeed,maxWindSpeed);
 loadtimeseries.Data = fn_scaling(...
     loadtimeseries.Data,meanLoadPower,maxLoadPower);
-illuminationcurrenttimeseries.Data = ...
-    illuminationcurrenttimeseries.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries.Data);
+% illuminationcurrenttimeseries.Data = ...
+    % illuminationcurrenttimeseries.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries.Data);
 
 % Contingency Condition: Cloudy Day
-% illuminationcurrenttimeseries.Data = ...
-    % illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
+illuminationcurrenttimeseries.Data = ...
+    illuminationcurrenttimeseries_clouded.Data*maxIlluminationCurrent/max(illuminationcurrenttimeseries_clouded.Data);
 
 
 %% Wind Turbine Parameters
@@ -113,13 +110,15 @@ wt.pitchctrl.lowerLimit = 0;
 pv.P_rated = 9.7e3; % Homer Output
 
 pv.Is = 1e-10; % Produces about  0.66 V at 9.8 A of current
-pv.Rs = 0.005; % Adjusted this to get the approximate max power point
+pv.Rs = 0.0001; % Adjusting down increased power by up to 8%.
 pv.Rp = 2500;  % Based off of L. Ma et al. "The Measurement of Series and Shunt Resistances of the Silicon Solar Cell Based on LabVIEW"
 pv.VT = 0.026;
 
 pv.vd_0 = 0.7;
 
-pv.MPPT_sampleTime = 1;  % Not optimized
+pv.MPPT_sampleTime = 1;  % LEFT at ONE SECOND
+
+
 
 
 %% Energy Storage
@@ -128,12 +127,12 @@ es.eta_pe = 0.95;
 es.eta_sm = sqrt(0.9);
 es.SOC_0 = 0.5;
 
-es.P_pe_rated = 2.3e3; % Homer Output
+es.P_pe_rated = 25.3e3; % Homer Output
 es.P_pe_rated = pv.P_rated; % To address insufficiency power of converter  
 es.P_pe_slew_upper = es.P_pe_rated / 1;
 es.P_pe_slew_lower = -es.P_pe_rated / 1;
 
-es.E_rated_kWh = 60; % Homer Output
+es.E_rated_kWh = 30.7; % SEE REPORT SUMMARY
 
 es.E_rated = es.E_rated_kWh*1000*3600;
 
@@ -157,7 +156,7 @@ ht.Kgsec = 20/60;
 
 %% Hydro
 
-ht.P_rated = 3e3; % Homer Output
+ht.P_rated = 5; % Homer Output
 
 % Parameters for Hills Creek Reservoir unit
 ht.tauw = 1.6;
@@ -196,6 +195,76 @@ wp.P_lowerRate = -wp.P_upperRate;
 wp.Kgpri = 20;
 
 
-%% Closing
 
-disp("Good job!  The init file ran succesfully, hopefully the simulation does too.")
+%%
+simresults = sim("microgrid_y24f_step10");   % ADDED to access data
+
+loggedData = simresults.logsout;      % ADDED to access data
+p_ld = loggedData.get('p_ld').Values.Data;  % load
+p_pv = loggedData.get('p_pv').Values.Data;  
+p_es = loggedData.get('p_es').Values.Data;  
+%p_ht = loggedData.get('p_ht').Values.Data;
+p_wp = loggedData.get('p_wp').Values.Data; % water pump - Deferrable load
+soc = loggedData.get('SOC').Values.Data;
+delta_wpu = loggedData.get('delta_wpu').Values.Data;
+
+
+x_time = 1:length(soc);
+figure(1);
+
+plot(x_time, p_ld, 'r-', 'LineWidth', 1.5);  
+hold on;  
+plot(x_time, p_pv, 'm-', 'LineWidth', 1.5); 
+plot(x_time, p_es, 'b-', 'LineWidth', 1.5); 
+plot(x_time, p_wp, 'g-', 'LineWidth', 1.5); 
+%plot(x_time, p_ht, 'k-', 'LineWidth', 1.5);
+ylabel('Power (watts)');
+
+hold off;
+
+
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Load Power, PV Power, Energy Storage Power, Water Pump Power vs Time');
+legend('Total Load Power', 'PV Power','Energy Storage Power', 'Water Pump');  % Add legend
+legend location northwest
+grid on;
+%% Plot #2 Delta Frequency Per Unit vs Time
+%  The delta frequency per unit shows the frequency maintaining within +/-
+%  0.10 per the problem statment.
+
+figure(2);
+plot(x_time, delta_wpu, 'b-', 'LineWidth', 2); 
+ylabel('Delta Frequency Per Unit');
+ylim([-0.1 .1]);  
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Delta Frequency Per Unit vs Time');
+legend('Delta Frequency PU');  % Add legend
+legend location northwest
+grid on;
+disp("finished.")
+
+%% Plot #3 Delta Frequency Per Unit vs Time
+%  The delta frequency per unit shows the frequency maintaining within +/-
+%  0.10 per the problem statment.
+
+figure(3);
+yyaxis left
+ 
+hold on;  
+plot(x_time, p_es, 'b-', 'LineWidth', 1.5);    
+ylabel('Energy Storage (watts)');
+%set(gca, 'YColor', 'b');
+%ylim([0 11e4]);
+yyaxis right
+plot(x_time, soc, 'k-', 'LineWidth', 2); 
+hold off;
+ylabel('State of Charge');
+%ylim([-0.1 1.015]);  
+set(gcf, 'Position', [1550, 50, 800, 900]);
+xlabel('Time (seconds)');
+title('Energy Storage and State of Charge vs Time');
+legend('Energy Storage Power', 'State Of Charge (SOC)');  % Add legend
+legend location northwest
+grid on;
